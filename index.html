@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,18 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #4b0f1e; /* dark wine red */
+  background: #4b0f1e;
   color: #ffe6f0;
   overflow-x: hidden;
-  scroll-behavior: smooth;
 }
 
 /* Progress bar */
@@ -42,21 +38,15 @@ body {
 /* Sections */
 section {
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 40px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 1s ease;
 }
 
-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.hidden { display: none; }
 
 /* Text */
 h1 {
@@ -67,14 +57,14 @@ h1 {
 }
 
 p {
-  max-width: 700px;
+  max-width: 650px;
   font-size: 18px;
   line-height: 1.7;
 }
 
 .signature {
   margin-top: 20px;
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico';
   font-size: 22px;
   color: #ff8fb3;
 }
@@ -90,11 +80,6 @@ button {
   font-size: 16px;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(255,105,180,0.4);
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
 }
 
 .choice {
@@ -108,7 +93,7 @@ button:hover {
   position: relative;
 }
 
-/* Password input */
+/* Input */
 input {
   padding: 12px;
   border-radius: 20px;
@@ -120,19 +105,13 @@ input {
 /* Hearts */
 .heart {
   position: fixed;
+  top: -10vh;
   pointer-events: none;
   animation: fall linear forwards;
 }
 
 @keyframes fall {
-  from {
-    transform: translateY(-10vh);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(110vh);
-    opacity: 0;
-  }
+  to { transform: translateY(120vh); opacity: 0; }
 }
 </style>
 </head>
@@ -141,69 +120,57 @@ input {
 
 <div id="progress"><div id="progress-bar"></div></div>
 
-<!-- PASSWORD LOCK -->
-<section id="lock" style="display:flex">
+<!-- LOCK SCREEN -->
+<section id="lock">
   <h1>for you 🤍</h1>
-  <p>hint: the day i was born 🎂</p>
+  <p>hint: my birthday 🎂</p>
   <input type="password" id="pass" placeholder="enter password">
   <button onclick="unlock()">unlock 💗</button>
 </section>
 
-<!-- SECTION 1 -->
-<section>
+<!-- CONTENT -->
+<section class="hidden">
   <h1>i’m sorry :(</h1>
   <p>
     I’m sorry for being an ass.  
-    I let my ego talk when my heart should’ve.  
-    I never meant to hurt you.
+    I let my ego speak when my heart shouldn’t have.
   </p>
   <div class="signature">— Mini</div>
 </section>
 
-<!-- SECTION 2 -->
-<section>
-  <h1>i love you</h1>
-  <p>
-    I love you more than my pride,  
-    more than my anger,  
-    more than my mistakes.
-  </p>
-
+<section class="hidden">
+  <h1>forgive me?</h1>
+  <p>I love you more than my pride.</p>
   <div class="choice">
     <button onclick="heartRain()">yes 💗</button>
     <button class="no" onmouseover="moveNo(this)">no 💔</button>
   </div>
-
   <div class="signature">— Mini</div>
 </section>
 
-<!-- SECTION 3 -->
-<section>
+<section class="hidden">
   <h1>forever us</h1>
   <p>
     I don’t want perfect.  
-    I just want you — even on the hard days.
+    I just want you.
   </p>
   <div class="signature">— Mini</div>
 </section>
 
 <script>
-/* Unlock page */
 function unlock() {
   if (document.getElementById("pass").value === "1011") {
-    document.getElementById("lock").style.display = "none";
-    document.querySelectorAll("section").forEach(sec => {
-      sec.style.display = "flex";
-      sec.classList.add("visible");
+    document.getElementById("lock").classList.add("hidden");
+    document.querySelectorAll(".hidden").forEach(sec => {
+      sec.classList.remove("hidden");
     });
   } else {
     alert("wrong password 💔");
   }
 }
 
-/* Heart rain */
 function heartRain() {
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 60; i++) {
     let h = document.createElement("div");
     h.className = "heart";
     h.innerHTML = ["💗","💕","💖","🫶"][Math.floor(Math.random()*4)];
@@ -215,19 +182,16 @@ function heartRain() {
   }
 }
 
-/* No button runs away */
 function moveNo(btn) {
-  btn.style.position = "absolute";
-  btn.style.left = Math.random() * 80 + "vw";
-  btn.style.top = Math.random() * 80 + "vh";
+  btn.style.left = Math.random() * 70 + "vw";
+  btn.style.top = Math.random() * 70 + "vh";
 }
 
-/* Progress bar */
 window.addEventListener("scroll", () => {
-  let height = document.body.scrollHeight - window.innerHeight;
-  let scroll = window.scrollY;
+  let h = document.body.scrollHeight - window.innerHeight;
+  let s = window.scrollY;
   document.getElementById("progress-bar").style.width =
-    (scroll / height) * 100 + "%";
+    (s / h) * 100 + "%";
 });
 </script>
 
